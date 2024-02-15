@@ -1,6 +1,7 @@
 package in.ineuron.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -57,6 +58,36 @@ public class ControllerServlet extends HttpServlet {
 				rd.forward(request, response);
 			}else {
 				rd=request.getRequestDispatcher("../failure.html");
+				rd.forward(request, response);
+			}
+		}
+		if (requestURI.endsWith("searchform")) {
+			studentService = StudentServiceFactory.getStudentService();
+			String studentId=request.getParameter("sid");
+			Student student=studentService.findById(Integer.parseInt(studentId));
+			System.out.println(student);
+			if (student!=null) {
+				response.setContentType("text/html");
+				PrintWriter out=response.getWriter();
+				out.println("<html><head><title>STUDENT DATA</title></head>");
+				out.println("<body bgcolor='lightblue'>");
+				out.println("<table align='center' border='1'>");
+				out.println("<tr>");
+				out.println("<th>SID</th><td>"+student.getSid()+"</td>");
+				out.println("</tr>");
+				out.println("<tr>");
+				out.println("<th>NAME</th><td>"+student.getSname()+"</td>");
+				out.println("</tr>");
+				out.println("<tr>");
+				out.println("<th>AGE</th><td>"+student.getSage()+"</td>");
+				out.println("</tr>");
+				out.println("<tr>");
+				out.println("<th>ADDRESS</th><td>"+student.getSaddr()+"</td>");
+				out.println("</tr>");
+				out.println("</table>");
+				out.println("</body></html>");
+			}else {
+				rd=request.getRequestDispatcher("../notfound.html");
 				rd.forward(request, response);
 			}
 		}

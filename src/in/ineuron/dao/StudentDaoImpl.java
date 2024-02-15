@@ -45,8 +45,7 @@ public class StudentDaoImpl implements IStudentDao {
 
 	@Override
 	public Student findById(Integer sid) {
-
-		String sqlSelectQuery = "select sid,name,email,city,country from student where sid=?";
+		String sqlSelectQuery = "select sid,sname,sage,saddr from student where sid=?";
 		PreparedStatement pstmt = null;
 		Student student = null;
 		try {
@@ -58,11 +57,9 @@ public class StudentDaoImpl implements IStudentDao {
 			}
 			if (pstmt != null) {
 				ResultSet resultSet = pstmt.executeQuery();
-
 				if (resultSet.next()) {
-					// copy the reusltSet data to StudentDTO and trasfer to the view
+					// copy the reusltSet data to StudentDTO and transfer to the view
 					student = new Student();
-
 					student.setSid(resultSet.getInt(1));
 					student.setSname(resultSet.getString(2));
 					student.setSage(resultSet.getInt(3));
